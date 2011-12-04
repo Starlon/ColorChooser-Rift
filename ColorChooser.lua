@@ -1,7 +1,7 @@
+Library = Library or {}
+Library.ColorChooser = {}
+Library.Color = {}
 
-local Color = {}
-
-local count = 0
 local pixel = 10
 
 --- Return RGB values from HSV colorspace values.
@@ -61,10 +61,8 @@ local function HSV2RGB(h, s, v, a)
 	
 	return r, g, b, a
 end
-Color.HSV2RGB = HSV2RGB
+Library.Color.HSV2RGB = HSV2RGB
 
-Library = Library or {}
-Library.ColorChooser = {}
 
 Library.ColorChooser.CreateWidget = function(frame, handler)
 	frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 40, 40)
@@ -73,30 +71,34 @@ Library.ColorChooser.CreateWidget = function(frame, handler)
 	frame:SetWidth(pixel * 360/30)
 	frame:SetHeight(8 * pixel)
 	frame:SetVisible(true)
+	frame.textures = frame.textures or {}
 
 	local x, y = 0, 0
-	for h = 0, 360, 360/40 do
+	local count = 0
+	for h = 0, 360, 360/42 do
 		for v = 99, 0, -(100/8) do
 			local s = 100
 			y = count * pixel
 			count = count + 1
 				
-			local texture = UI.CreateFrame("Frame", "Pixel", frame)
+			local texture = table.remove(frame.textures) or UI.CreateFrame("Frame", "Pixel", frame)
+			texture:ClearAll()
 			texture:SetMouseMasking("full")	
 			texture:SetPoint("TOPLEFT", frame, "TOPLEFT", x, y)
 		
-			local r, g, b = Color.HSV2RGB(h/360, s/100, v/100)
+			local r, g, b = HSV2RGB(h/360, s/100, v/100)
 			texture:SetBackgroundColor(r, g, b)
 			texture:SetWidth(pixel)
 			texture:SetHeight(pixel)
 	
 			texture.Event.LeftClick = function()
-				local r, g, b = Color.HSV2RGB(h/360, s/100, v/100)
 				handler(r, g, b)
 			end
+			table.insert(frame.textures, texture)
 		end
 		x = x + pixel
 		count = 0
 	end
+	return frame
 end
 

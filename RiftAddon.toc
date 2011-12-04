@@ -3,7 +3,7 @@ Identifier = "ColorChooser"
 Name = "ColorChooser"
 
 Author = "Scott Sibley (Starlon)"
-Website = ""
+Website = "https://github.com/Starlon/ColorChooser-Rift"
 Email = "sisibley@gmail.com"
 
 Version = "1.0"

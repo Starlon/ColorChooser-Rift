@@ -1,0 +1,16 @@
+Identifier = "ColorChooser"
+
+Name = "ColorChooser"
+
+Author = "Scott Sibley (Starlon)"
+Website = ""
+Email = "sisibley@gmail.com"
+
+Version = "1.0"
+
+Environment = "1.6"
+
+RunOnStartup = {
+  "ColorChooser.lua",
+}
+

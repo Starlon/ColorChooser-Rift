@@ -91,6 +91,28 @@ Library.ColorChooser.CreateWidget = function(frame, handler, pixel)
 		x = x + pixel
 		count = 0
 	end
+	count = 0
+	for v = 99, 0, -(100/8)  do
+		local h, s, v = 0, 0, v
+
+		y = count * pixel
+		count = count + 1
+
+		local texture = UI.CreateFrame("Frame", "Pixel", frame)
+		texture:ClearAll()
+		texture:SetMouseMasking("full")
+		texture:SetPoint("TOPLEFT", frame, "TOPLEFT", x, y)
+		
+		local r, g, b = HSV2RGB(h/360, s/100, v/100)
+		texture:SetBackgroundColor(r, g, b)
+		texture:SetWidth(pixel)
+		texture:SetHeight(pixel)
+
+		texture.Event.LeftClick = function()
+			handler(r, g, b)
+		end
+		table.insert(frame.textures, texture)
+	end
 	return frame
 end
 
